@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Labels } from '../App';
 import Gallery from './Gallery';
 import LabelStore from './LabelStore';
@@ -33,15 +33,12 @@ function LabelViewer() {
     }, [focus])
 
     return (
-        <>
+        <Fragment>
             <Gallery images={images} focus={focus} callback={setFocus} />
             {images.length > 0 ?
                 <MainView focus={focus} image={images[focus]} callback={updateImage} />
                 :
-                <input
-                    type="file"
-                    name="myImage"
-                    onChange={(event) => {
+                <input type="file" multiple onChange={(event) => {
                         setImages(Array.from(event.target.files!).map(
                             (file) => {
                                 return {
@@ -50,14 +47,10 @@ function LabelViewer() {
                                 }
                             }
                         ));
-
-                    }}
-                    multiple />
+                    }}/>
             }
-        </>
+        </Fragment>
     )
-
-
 }
 
 export default LabelViewer
