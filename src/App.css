@@ -1,38 +1,152 @@
-.App {
-  text-align: center;
-}
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.gallery-outermost-wrapper{
+  margin: none;
+  max-width: 100vw;
+  padding: 1vw;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-content: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+}
+.carousel{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: flex-start;
+  overflow-x: scroll;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  border-radius: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+.img-wrapper{
+  margin: 0px;
+  border: none;
+  padding: 0px;
+  
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.img-wrapper button{
+  background-color: white;
+  border: none;
+  outline: none;
+  transition: all 0.1s ease-in-out;
+}
+
+.img-wrapper img{
+  filter: contrast(0.3);
+  transition: 0.1s all ease-in-out;
+}
+.img-wrapper button:hover {
+  cursor: pointer;
+}
+
+.img-wrapper button:hover > img{
+  filter: contrast(1)
+}
+
+
+.outer-container {
+  width: 100%;
+  min-height: 600px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-view-container{
+  min-width: max-content;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  -o-user-select: none;
+  user-select: none;
+  margin-bottom: 20px;
+  overflow: auto;
+}
+.main-view-container img{
+  position: absolute;
+  z-index: -1;
+
+}
+.main-view-container canvas{
+  position: absolute;
+  z-index: 2;
+
+}
+.toolbar{
+  padding: 3px;
+  margin: 10px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+}
+
+.toolbar button{
+  margin-top: 5px;
+  width: 40px;
+  height: 40px;
+}
+
+.btn-tool{
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  background-color: white;
+  cursor: pointer;
+  border: 2px solid rgba(128, 128, 128, 0.1);
+  border-radius: 10px;
+  height: 50px;
+  padding: 10px;
+  margin-left: 4px;
+  transition: all 0.2s ease-in-out;
+  box-shadow: none;
+}
+
+.btn-tool-active{
+  background-color: white;
+
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  border-radius: 10px;
+  height: 50px;
+  padding: 10px;
+  margin-left: 4px;
+  transition: all 0.2s ease-in-out;
+  box-shadow: none;
+  border: 2px solid #4682B4;
+
+}
+
+.btn-tool:hover{
+  border: 2px solid #4682B4;
+
+}
+
+.labeler-container {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  margin: 1vw;
+  margin-top: 10px;
+  max-width: 100vw;
+  padding: 1vw;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
