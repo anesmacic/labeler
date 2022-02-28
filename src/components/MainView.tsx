@@ -251,34 +251,7 @@ function MainView(ImageContainer: MainVeiwArgs) {
 
     return <Fragment>
         <div className="labeler-container">
-            <div className="toolbar">
-               
-                <button className={modeCursor ? "btn-tool-active" : "btn-tool"} onClick={() => { modeCursor ? setmodeCursor(false) : setmodeLine(false); setmodePolygon(false); setmodeCursor(true); setmodePoint(false); }}>
-                    <img width="20px" style={{ filter: "grayscale(1)" }} className="toolbar-img" src={process.env.PUBLIC_URL + "/cursor.png"} alt="Polygon Selector" />
-                </button>
-                <button className={modePoint ? "btn-tool-active" : "btn-tool"} onClick={() => { modePoint ? setmodePolygon(false) : setmodeLine(false); setmodePolygon(false); setmodeCursor(false); setmodePoint(true); }}>
-                    <img width="20px" style={{ filter: "grayscale(1)" }} className="toolbar-img" src={process.env.PUBLIC_URL + "/points.png"} alt="Polygon Selector" />
-                </button>
-                <button className={modePolygon ? "btn-tool-active" : "btn-tool"} onClick={() => { modePolygon ? setmodePolygon(false) : setmodeLine(false); setmodePolygon(true); setmodeCursor(false); setmodePoint(false); }}>
-                    <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/square-3.png"} alt="Polygon Selector" />
-                </button>
-                <button className={modeLine ? "btn-tool-active" : "btn-tool"} onClick={() => { modeLine ? setmodeLine(false) : setmodeLine(true); setmodePolygon(false); setmodeCursor(false); setmodePoint(false); }}>
-                    <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/line-segment.png"} alt="Polygon Selector" />
-                </button>
-                <button className={brightnessSliderVisible ? "btn-tool-active" : "btn-tool"} onDoubleClick={() => resetBrightness()} onClick={() => { brightnessSliderVisible ? setBrightnessSliderVisible(false) : setBrightnessSliderVisible(true) }}>
-                    <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/brightness.png"} alt="Polygon Selector" />
-                </button>
-                <button className={contrastSliderVisible ? "btn-tool-active" : "btn-tool"} onDoubleClick={() => resetContrast()} onClick={() => { contrastSliderVisible ? setContrastSliderVisible(false) : setContrastSliderVisible(true) }}>
-                    <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/contrast.png"} alt="Polygon Selector" />
-                </button>
-                <button className={invertSliderVisible ? "btn-tool-active" : "btn-tool"} onDoubleClick={() => resetInvert()} onClick={() => { invertSliderVisible ? setInvertSliderVisible(false) : setInvertSliderVisible(true) }}>
-                    <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/invert.png"} alt="Polygon Selector" />
-                </button>
-            </div>
-            <Slider visible={brightnessSliderVisible} value={brightnessValue} onChange={(e) => { setBrigthnessValue(parseInt(e.target.value)) }} />
-            <Slider visible={contrastSliderVisible} value={contrastValue} onChange={(e) => { setContrastValue(parseInt(e.target.value)) }} />
-            <Slider visible={invertSliderVisible} max={100} value={invertValue} onChange={(e) => { setInvertValue(parseInt(e.target.value)) }} />
-
+        
             <div className="outer-container">
                 <div className="main-view-container " style={{ width: dimensions.width + "px", height: dimensions.height + "px" }} onContextMenu={(e) => { e.preventDefault(); return false }} >
                     <img width={dimensions.width + "px"} height={dimensions.height + "px"} onContextMenu={(e) => { e.preventDefault(); return false }} src={ImageContainer.image.blobURL} style={{ filter: `invert(${invertValue}%) contrast(${contrastValue}%) brightness(${brightnessValue}%)` }} />
@@ -287,6 +260,34 @@ function MainView(ImageContainer: MainVeiwArgs) {
                 </div>
             </div>
             <div className="label-container-out">
+            <div className="toolbar">
+               
+               <button className={modeCursor ? "btn-tool-active" : "btn-tool"} onClick={() => { modeCursor ? setmodeCursor(false) : setmodeLine(false); setmodePolygon(false); setmodeCursor(true); setmodePoint(false); }}>
+                   <img width="20px" style={{ filter: "grayscale(1)" }} className="toolbar-img" src={process.env.PUBLIC_URL + "/cursor.png"} alt="Polygon Selector" />
+               </button>
+               <button className={modePoint ? "btn-tool-active" : "btn-tool"} onClick={() => { modePoint ? setmodePolygon(false) : setmodeLine(false); setmodePolygon(false); setmodeCursor(false); setmodePoint(true); }}>
+                   <img width="20px" style={{ filter: "grayscale(1)" }} className="toolbar-img" src={process.env.PUBLIC_URL + "/points.png"} alt="Polygon Selector" />
+               </button>
+               <button className={modePolygon ? "btn-tool-active" : "btn-tool"} onClick={() => { modePolygon ? setmodePolygon(false) : setmodeLine(false); setmodePolygon(true); setmodeCursor(false); setmodePoint(false); }}>
+                   <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/square-3.png"} alt="Polygon Selector" />
+               </button>
+               <button className={modeLine ? "btn-tool-active" : "btn-tool"} onClick={() => { modeLine ? setmodeLine(false) : setmodeLine(true); setmodePolygon(false); setmodeCursor(false); setmodePoint(false); }}>
+                   <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/line-segment.png"} alt="Polygon Selector" />
+               </button>
+               <button className={brightnessSliderVisible ? "btn-tool-active" : "btn-tool"} onDoubleClick={() => resetBrightness()} onClick={() => { brightnessSliderVisible ? setBrightnessSliderVisible(false) : setBrightnessSliderVisible(true) }}>
+                   <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/brightness.png"} alt="Polygon Selector" />
+               </button>
+               <button className={contrastSliderVisible ? "btn-tool-active" : "btn-tool"} onDoubleClick={() => resetContrast()} onClick={() => { contrastSliderVisible ? setContrastSliderVisible(false) : setContrastSliderVisible(true) }}>
+                   <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/contrast.png"} alt="Polygon Selector" />
+               </button>
+               <button className={invertSliderVisible ? "btn-tool-active" : "btn-tool"} onDoubleClick={() => resetInvert()} onClick={() => { invertSliderVisible ? setInvertSliderVisible(false) : setInvertSliderVisible(true) }}>
+                   <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/invert.png"} alt="Polygon Selector" />
+               </button>
+           </div>
+           <Slider visible={brightnessSliderVisible} value={brightnessValue} onChange={(e) => { setBrigthnessValue(parseInt(e.target.value)) }} />
+           <Slider visible={contrastSliderVisible} value={contrastValue} onChange={(e) => { setContrastValue(parseInt(e.target.value)) }} />
+           <Slider visible={invertSliderVisible} max={100} value={invertValue} onChange={(e) => { setInvertValue(parseInt(e.target.value)) }} />
+
                 <p>Labels</p>
             {ImageContainer.image.annotations.map((annotation: Annotation, index: number) => {
                 return <LabelObject key={index + "annotation"} label={annotation} 

@@ -31,34 +31,30 @@ function LabelViewer() {
                 <MainView focus={focus} image={images[focus]} callback={updateImage} />
                 :
                 <div className="fc">
-                                       
+
                     <h1>Labeler</h1>
-                    <pre>version 0.1 <a href="https://github.com/anesmacic/labeler">Github &#8599;</a></pre>
-                    <br/>
-
-
-                    <div  className="outerfc">
-                    <p>Upload some images to get started.</p>
-                    <br/>
-                    <br/>
-
-                    <div className="innerfc">
-
-                    <input className="fileupload"  type="file" multiple onChange={(event) => {
-                        setImages(Array.from(event.target.files!).map(
-                            (file) => {
-                                return {
-                                    file: file,
-                                    blobURL: URL.createObjectURL(file),
-                                    annotations: []
-                                }
-                            }
-                        ));
-                    }}/>
-                    </div>
+                    <pre>version 0.1.0 <a href="https://github.com/anesmacic/labeler">Github &#8599;</a></pre>
+                    <br />
+                    <div className="outerfc">
+                        <p>Upload some images to get started.</p>
+                        <br />
+                        <br />
+                        <div className="innerfc">
+                            <input className="fileupload" type="file" multiple onChange={(event) => {
+                                setImages(Array.from(event.target.files!).map(
+                                    (file) => {
+                                        return {
+                                            file: file,
+                                            blobURL: URL.createObjectURL(file),
+                                            annotations: []
+                                        }
+                                    }
+                                ));
+                            }} />
+                        </div>
                     </div>
 
-                    
+
 
                 </div>
             }
