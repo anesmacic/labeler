@@ -35,3 +35,5 @@ Name your annotation. Set "global" on if you want the annotation name to be avai
 Finally export your annotations once you feel you're done.
 
 Coming soon is a Python package to postprocess labels into image masks.
+
+CSS was written for Desktop use. Resize at your own risk. Want to style the tool better? Please reach out.
