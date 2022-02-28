@@ -2,6 +2,7 @@ import React, { createContext, useMemo, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import LabelViewer from './components/LabelViewer';
+import internal from 'stream';
 
 
 
@@ -12,6 +13,13 @@ export enum LabelTypes {
   Rect = "RECTANGLE"
 }
 
+export interface Node {
+  x: number,
+  y: number
+}
+
+export interface Nodes extends Array<Node>{}
+ 
 export interface Label {
   name: string,
   type: LabelTypes
