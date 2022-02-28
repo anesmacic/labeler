@@ -3,6 +3,7 @@ import { ImageI, ImagesI } from "./LabelViewer"
 import '../App.css'
 import { LabelTypes, Label } from "../App"
 import Slider from './Slider';
+import LabelObject from "./Label";
 
 interface MainVeiwArgs {
     image: ImageI,
@@ -29,8 +30,10 @@ export interface Node {
 export interface Nodes extends Array<Node> { }
 
 export interface Annotation {
+    uniqueId: string,
     nodes: Nodes,
     name?: string,
+    color?: string,
     type: LabelTypes
 }
 
@@ -48,14 +51,17 @@ export interface PolygonAnnotation extends Annotation {
 
 function MainView(ImageContainer: MainVeiwArgs) {
     const placeholderPolygonAnnotation: Annotation = {
+        uniqueId: "",
         nodes: [],
         type: LabelTypes.Polygon
     }
     const placeholderLineAnnotation: Annotation = {
+        uniqueId: "",
         nodes: [],
         type: LabelTypes.Line
     }
     const placeholderPointAnnotation: Annotation = {
+        uniqueId: "",
         nodes: [],
         type: LabelTypes.Point
     }
@@ -109,6 +115,7 @@ function MainView(ImageContainer: MainVeiwArgs) {
         const newNode: Node = { x: x / dimensions.width, y: y / dimensions.width }
         let current = Object.assign({}, currentLabel)
         current.nodes.push(newNode)
+        current.uniqueId = Math.random().toString(36)
         if (modePoint) {
             updateCurrentLabel(placeholderPointAnnotation)
             ImageContainer.callback(ImageContainer.focus, [...ImageContainer.image.annotations, current])
@@ -122,11 +129,13 @@ function MainView(ImageContainer: MainVeiwArgs) {
             if (temporaryPolygonAnnotation) {
                 let closedPath: Annotation = temporaryPolygonAnnotation;
                 closedPath.nodes.push(closedPath.nodes[0]);
+                closedPath.uniqueId = Math.random().toString(36)
                 ImageContainer.callback(ImageContainer.focus, [...ImageContainer.image.annotations, closedPath])
                 settemporaryPolygonAnnotation(placeholderPolygonAnnotation);
             }
         if (modeLine)
             if (temporaryLineAnnotation) {
+                temporaryLineAnnotation.uniqueId = Math.random().toString(36)
                 ImageContainer.callback(ImageContainer.focus, [...ImageContainer.image.annotations, temporaryLineAnnotation])
                 settemporaryLineAnnotation(placeholderLineAnnotation)
             }
@@ -214,6 +223,40 @@ function MainView(ImageContainer: MainVeiwArgs) {
         console.log(ImageContainer.image.annotations)
     }, [ImageContainer.image.annotations])
 
+    const removeAnnotation = (id : string) : void =>  {
+        ImageContainer.callback(ImageContainer.focus, [...ImageContainer.image.annotations.filter((annotation: Annotation) => annotation.uniqueId!=id)])
+    }
+
+    const updateAnnotationColor = (id : string, color: string) : void =>  {
+        let currentValue = Object.assign([],ImageContainer.image.annotations)
+        console.log(color)
+        console.log(currentValue)
+        ImageContainer.callback(ImageContainer.focus, [...currentValue.map((annotation: Annotation) => { if (annotation.uniqueId==id){
+            let newAnnotation = Object.assign({}, annotation)
+            newAnnotation.color = color
+            console.log(newAnnotation)
+            return newAnnotation
+        }else{
+            return annotation
+        }})])
+    }
+
+    const updateAnnotationName = (id : string, name: string) : void =>  {
+        let currentValue = Object.assign([],ImageContainer.image.annotations)
+        console.log(name)
+        console.log(currentValue)
+        ImageContainer.callback(ImageContainer.focus, [...currentValue.map((annotation: Annotation) => { if (annotation.uniqueId==id){
+            let newAnnotation = Object.assign({}, annotation)
+            newAnnotation.name = name
+            console.log(newAnnotation)
+            
+            return newAnnotation
+        }else{
+            return annotation
+        }})])
+
+    }
+
     return <Fragment>
         <div className="labeler-container">
             <div className="toolbar">
@@ -252,6 +295,17 @@ function MainView(ImageContainer: MainVeiwArgs) {
                     <canvas ref={displayCanvasRef} onContextMenu={(e) => { e.preventDefault(); return false }} onClick={(e) => reportClick(e)} style={{ width: dimensions.width + "px", height: dimensions.height + "px" }} width={dimensions.width * dimensions.scale} height={dimensions.height * dimensions.scale} />
                     <canvas ref={drawingCanvasRef} onClick={(e) => reportClick(e)} style={{ width: dimensions.width + "px", height: dimensions.height + "px" }} width={dimensions.width * dimensions.scale} height={dimensions.height * dimensions.scale} onContextMenu={(e) => { reportDoubleClick(); return false; }} />
                 </div>
+            </div>
+            <div className="label-container-out">
+            {ImageContainer.image.annotations.map((annotation: Annotation) => {
+                return <LabelObject label={annotation} 
+                                    id={annotation.uniqueId} 
+                                    nameLabel={""} 
+                                    removeCallback={removeAnnotation}
+                                    updateColorCallback = {updateAnnotationColor}
+                                    updateNameCallback = {updateAnnotationName}
+                                    />
+            })}
             </div>
         </div>
     </Fragment>

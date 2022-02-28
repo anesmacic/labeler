@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import LabelViewer from './components/LabelViewer';
@@ -13,16 +13,10 @@ export enum LabelTypes {
   Rect = "RECTANGLE"
 }
 
-export interface Node {
-  x: number,
-  y: number
-}
-
-export interface Nodes extends Array<Node>{}
  
 export interface Label {
-  name: string,
-  type: LabelTypes
+  label: string,
+  value: string
 }
 
 export interface Labels extends Array<Label>{}
@@ -43,6 +37,8 @@ function App() {
 
   const params = useMemo(()=>({labels, updateLabels}),[labels])
 
+
+  useEffect(()=>console.log(labels),[labels])
   return (
     <div className="App">
       <LabelContext.Provider value={params}>
