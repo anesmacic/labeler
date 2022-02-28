@@ -13,6 +13,7 @@
   flex-direction: column;
   align-content: center;
   justify-content: center;
+  align-items: center;
 
 }
 .carousel{
@@ -20,6 +21,8 @@
   flex-direction: row;
   justify-content: flex-start;
   align-content: flex-start;
+  max-width: 90vw;
+
   overflow-x: scroll;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   border-radius: 5px;
@@ -28,6 +31,7 @@
   padding-left: 30px;
   padding-right: 30px;
   border-bottom: 4px solid #51758fa2;
+
 
 }
 
@@ -124,10 +128,14 @@
   transition: all 0.2s ease-in-out;
   box-shadow: none;
 }
-
+a{
+  outline: none;
+  text-decoration: none;
+}
 .btn-tool-active{
   background-color: white;
-
+  outline: none;
+  text-decoration: none;
   cursor: pointer;
   border: none;
   display: flex;
@@ -444,4 +452,32 @@ input[type="file"]::-webkit-file-upload-button {
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border-radius: 5px;
   padding: 30px;
+}
+.download-ref{
+  max-width: 200px;
+  margin: 4px;
+  margin-left: 20px;
+
+
+}
+.download-btn{
+  width: 100%;
+  background-color: white;
+  color:rgb(2, 81, 117);
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid rgb(2, 81, 117);
+  margin: 4px;
+  margin-left: 20px;
+  cursor: pointer;
+  transition: 0.1s all ease-in-out;
+}
+
+.download-btn:hover{
+  color: white;
+  background-color: rgb(2, 81, 117);
+}
+.inlinea {
+  align-items: baseline;
+  justify-content: space-between;
 }

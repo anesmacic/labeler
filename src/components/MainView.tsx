@@ -90,8 +90,8 @@ function MainView(ImageContainer: MainVeiwArgs) {
     const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 })
     const [LabelerIsCollapsed, setLabelerIsCollapsed] = useState<boolean>(false)
     const [dimensions, setDimensions] = useState<CanvasDimensions>({
-        width: 800,
-        height: 800,
+        width: 700,
+        height: 700,
         scale: 2
     })
 

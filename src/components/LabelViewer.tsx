@@ -46,6 +46,8 @@ function LabelViewer() {
                                         return {
                                             file: file,
                                             blobURL: URL.createObjectURL(file),
+                                            filename: file.name,
+                                            lastModified: file.lastModified,
                                             annotations: []
                                         }
                                     }
