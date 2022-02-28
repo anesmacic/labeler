@@ -37,7 +37,7 @@ function LabelObject({ label, id, nameLabel, removeCallback, updateColorCallback
 
     const popover: React.CSSProperties = {
         position: 'absolute',
-        zIndex: '2',
+        zIndex: '6',
     }
 
     const cover: React.CSSProperties = {
@@ -78,8 +78,9 @@ function LabelObject({ label, id, nameLabel, removeCallback, updateColorCallback
             {
                 displayColorPicker ?
                     <div style={popover}>
-                        <div style={cover} />
+                        <div style={cover} > </div>
                         <ChromePicker color={label.color}  disableAlpha={true} onChangeComplete={ (e)=>{ updateColorCallback(id,e.hex); setDisplayColorPicker(false) }} />
+                        
                     </div>
                     :
                     null

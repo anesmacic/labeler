@@ -29,7 +29,7 @@ Released under [MIT](/LICENSE) by [@anesmacic](https://github.com/anesmacic).
 
 Select mode you want to work in - Point, Polygon or Line.
 Then click on image to add nodes for your annotation.
-Double click to complete. Polygons are set up to close themselves, you don't need to connect end to start node yourself.
+Right click to complete. Polygons are set up to close themselves, you don't need to connect end to start node yourself.
 Name your annotation. Set "global" on if you want the annotation name to be available in all other images (this can save you some typing).
 
 Finally export your annotations once you feel you're done.
