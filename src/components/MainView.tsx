@@ -53,19 +53,19 @@ function MainView(ImageContainer: MainVeiwArgs) {
     const placeholderPolygonAnnotation: Annotation = {
         uniqueId: "",
         nodes: [],
-        color: "#0000FF6B",
+        color: "#51758F6B",
         type: LabelTypes.Polygon
     }
     const placeholderLineAnnotation: Annotation = {
         uniqueId: "",
         nodes: [],
-        color: "#0000FF6B",
+        color: "#51758F6B",
         type: LabelTypes.Line
     }
     const placeholderPointAnnotation: Annotation = {
         uniqueId: "",
         nodes: [],
-        color: "#0000FF6B",
+        color: "#51758F6B",
         type: LabelTypes.Point
     }
 
@@ -252,9 +252,7 @@ function MainView(ImageContainer: MainVeiwArgs) {
     return <Fragment>
         <div className="labeler-container">
             <div className="toolbar">
-                <button className={"btn-tool"} onClick={() => { LabelerIsCollapsed ? setLabelerIsCollapsed(false) : setLabelerIsCollapsed(true) }}>
-                    {LabelerIsCollapsed ? <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/fullscreen-undo.png"} alt="Polygon Selector" /> : <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/fullscreen-do.png"} alt="Polygon Selector" />}
-                </button>
+               
                 <button className={modeCursor ? "btn-tool-active" : "btn-tool"} onClick={() => { modeCursor ? setmodeCursor(false) : setmodeLine(false); setmodePolygon(false); setmodeCursor(true); setmodePoint(false); }}>
                     <img width="20px" style={{ filter: "grayscale(1)" }} className="toolbar-img" src={process.env.PUBLIC_URL + "/cursor.png"} alt="Polygon Selector" />
                 </button>
@@ -289,6 +287,7 @@ function MainView(ImageContainer: MainVeiwArgs) {
                 </div>
             </div>
             <div className="label-container-out">
+                <p>Labels</p>
             {ImageContainer.image.annotations.map((annotation: Annotation, index: number) => {
                 return <LabelObject key={index + "annotation"} label={annotation} 
                                     id={annotation.uniqueId} 

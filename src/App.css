@@ -7,6 +7,7 @@
   flex-direction: column;
   align-content: center;
   justify-content: center;
+
 }
 .carousel{
   display: flex;
@@ -18,6 +19,8 @@
   border-radius: 5px;
   padding-top: 10px;
   padding-bottom: 10px;
+  border-bottom: 4px solid #51758fa2;
+
 }
 
 .carousel::-webkit-scrollbar {
@@ -84,7 +87,7 @@
   padding: 3px;
   margin: 10px;
   margin-bottom: 30px;
-  border-radius: 10px;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -130,7 +133,7 @@
   margin-left: 4px;
   transition: all 0.2s ease-in-out;
   box-shadow: none;
-  border: 2px solid #4682B4;
+  border: 2px solid rgb(2, 81, 117);
 
 }
 
@@ -185,7 +188,7 @@ border-radius: 5px;
   padding: 20px;
   border: 2px solid rgba(197, 197, 197, 0.114);
   margin-bottom: 1px;
-  border-radius: 20px;
+  border-radius: 10px;
   transition: all 0.1s ease-in-out;
   min-width: 300px;
 }
@@ -248,19 +251,19 @@ border-radius: 5px;
 
 .global{
   padding: 10px;
-  border: 1px solid rgba(4, 0, 255, 0.5);
+  border: 1px solid #51758F;
   border-radius: 10px;
   color: white;
-  background-color: rgba(4, 0, 255, 0.5);
+  background-color: #51758F;
   cursor: pointer;
   transition: all 0.1s ease-in-out;
 }
 
 .notglobal{
   padding: 10px;
-  border: 1px solid rgba(59, 59, 59, 0.5);
+  border: 1px solid  #51758F;
   border-radius: 10px;
-  color: rgba(59, 59, 59, 0.5);
+  color: #51758F;
   background-color: white;
   cursor: pointer;
   transition: all 0.1s ease-in-out;
@@ -408,3 +411,14 @@ input[type="file"]::-webkit-file-upload-button {
   border-radius: 10px;
   padding: 20px;
 }
+.label-container-out{
+  min-width: 500px;
+  align-items: center;
+  max-height: 800px;
+  padding-bottom: 30px;
+  overflow-y: auto;
+  scrollbar-color: white #4682B4;
+  padding-left: 10px;
+
+}
+
