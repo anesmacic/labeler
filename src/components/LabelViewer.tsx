@@ -2,13 +2,13 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { Labels } from '../App';
 import Gallery from './Gallery';
 import LabelStore from './LabelStore';
-import MainView from './MainView';
+import MainView, { Annotations } from './MainView';
 
 
 export interface ImageI {
     file: File,
     blobURL: string,
-    labels?: Labels
+    annotations: Annotations
 }
 
 export interface ImagesI extends Array<ImageI> { }
@@ -18,10 +18,11 @@ function LabelViewer() {
     const [images, setImages] = useState<ImagesI>([])
     const [focus, setFocus] = useState<number>(0)
 
-    const updateImage = (index: number, label: any) => {
+    const updateImage = (index: number, annotations: Annotations) => {
         let image: ImageI = images[index]
-        image.labels = label
+        image.annotations = annotations
         setImages([...images.slice(0, index), image, ...images.slice(index + 1)])
+        console.log(image)
     }
 
     useEffect(() => {
@@ -43,7 +44,8 @@ function LabelViewer() {
                             (file) => {
                                 return {
                                     file: file,
-                                    blobURL: URL.createObjectURL(file)
+                                    blobURL: URL.createObjectURL(file),
+                                    annotations: []
                                 }
                             }
                         ));

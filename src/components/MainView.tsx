@@ -88,7 +88,7 @@ function MainView(ImageContainer: MainVeiwArgs) {
         scale: 2
     })
 
-    const [labels, setLabels] = useState<Annotations>([])
+    const [labels, setLabels] = useState<Annotations>(ImageContainer.image.annotations)
 
     type Mode = [Annotation, React.Dispatch<React.SetStateAction<Annotation>>]
 
@@ -115,7 +115,7 @@ function MainView(ImageContainer: MainVeiwArgs) {
         current.nodes.push(newNode)
         if (doPoint) {
             updateCurrentLabel(placeholderPointAnnotation)
-            setLabels([... labels, current])
+            ImageContainer.callback(ImageContainer.focus,[... ImageContainer.image.annotations, current])
         } else {
             updateCurrentLabel(current)
         }
@@ -127,12 +127,12 @@ function MainView(ImageContainer: MainVeiwArgs) {
             if (tempPolygonLabel){
                 let closedPath : Annotation = tempPolygonLabel;
                 closedPath.nodes.push(closedPath.nodes[0]);
-                setLabels([...labels, closedPath])
+                ImageContainer.callback(ImageContainer.focus,[... ImageContainer.image.annotations, closedPath])
                 settempPolygonLabel(placeholderPolygonAnnotation);
             }
         if (doLine)
             if (tempLineLabel){
-                setLabels([...labels, tempLineLabel])
+                ImageContainer.callback(ImageContainer.focus,[... ImageContainer.image.annotations, tempLineLabel])
                 settempLineLabel(placeholderLineAnnotation)
             }
     }
@@ -181,7 +181,7 @@ function MainView(ImageContainer: MainVeiwArgs) {
         const context = canvas!.getContext('2d')
         if (context){
         context.clearRect(0, 0, canvas!.width, canvas!.height); 
-        labels.map(
+        ImageContainer.image.annotations.map(
             (label : Annotation) =>  
 
             {   switch(label.type){
@@ -219,16 +219,13 @@ function MainView(ImageContainer: MainVeiwArgs) {
 
         }
         }
-    ,[labels, dimensions])
+    ,[ImageContainer.image.annotations, dimensions])
 
 
     useEffect(() => {
-        console.log(ImageContainer.image.labels)
-    }, [ImageContainer.image.labels])
+        console.log(ImageContainer.image.annotations)
+    }, [ImageContainer.image.annotations])
 
-    useEffect(() => {
-        ImageContainer.callback(ImageContainer.focus, ImageContainer.image.labels ? { type: LabelTypes.Point, name: ImageContainer.focus + 1 } : { type: LabelTypes.Point, name: ImageContainer.focus + 1 })
-    }, [ImageContainer.focus])
 
     return <Fragment>
         <div className="labeler-container">
@@ -270,7 +267,6 @@ function MainView(ImageContainer: MainVeiwArgs) {
             </div>
         </div>
         </div>
-        <button onClick={(e) => { ImageContainer.callback(ImageContainer.focus, ImageContainer.image.labels ? { type: LabelTypes.Point, name: ImageContainer.focus + 1 } : { type: LabelTypes.Point, name: ImageContainer.focus + 1 }) }}></button>
 
     </Fragment>
 }
