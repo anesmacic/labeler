@@ -15,8 +15,7 @@ export enum LabelTypes {
 
  
 export interface Label {
-  label: string,
-  value: string
+  label: string
 }
 
 export interface Labels extends Array<Label>{}
@@ -37,8 +36,6 @@ function App() {
 
   const params = useMemo(()=>({labels, updateLabels}),[labels])
 
-
-  useEffect(()=>console.log(labels),[labels])
   return (
     <div className="App">
       <LabelContext.Provider value={params}>

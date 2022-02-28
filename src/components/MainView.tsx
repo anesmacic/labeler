@@ -53,16 +53,19 @@ function MainView(ImageContainer: MainVeiwArgs) {
     const placeholderPolygonAnnotation: Annotation = {
         uniqueId: "",
         nodes: [],
+        color: "#0000FF6B",
         type: LabelTypes.Polygon
     }
     const placeholderLineAnnotation: Annotation = {
         uniqueId: "",
         nodes: [],
+        color: "#0000FF6B",
         type: LabelTypes.Line
     }
     const placeholderPointAnnotation: Annotation = {
         uniqueId: "",
         nodes: [],
+        color: "#0000FF6B",
         type: LabelTypes.Point
     }
 
@@ -149,10 +152,10 @@ function MainView(ImageContainer: MainVeiwArgs) {
             context.beginPath()
             temporaryPolygonAnnotation?.nodes.map(
                 (node: Node) => {
-                    context.fillStyle = "#0000FF6B"
+                    context.fillStyle = temporaryPolygonAnnotation.color!
                     context.arc(node.x * dimensions.width * dimensions.scale, node.y * dimensions.height * dimensions.scale, 2, 0, 2 * Math.PI)
                     context.stroke()
-                    context.strokeStyle = "#0000FF6B"
+                    context.strokeStyle = temporaryPolygonAnnotation.color!
                 }
             )
             context.fill()
@@ -170,7 +173,7 @@ function MainView(ImageContainer: MainVeiwArgs) {
                     context.lineWidth = 5
                     context.arc(node.x * dimensions.width * dimensions.scale, node.y * dimensions.height * dimensions.scale, 5, 0, 2 * Math.PI)
                     context.stroke()
-                    context.strokeStyle = "#0000FF6B"
+                    context.strokeStyle = temporaryLineAnnotation.color!
                 }
             )
         }
@@ -185,15 +188,15 @@ function MainView(ImageContainer: MainVeiwArgs) {
                 (label: Annotation) => {
                     switch (label.type) {
                         case LabelTypes.Point:
-                            context.fillStyle = "#0000FF6B"
+                            context.fillStyle = label.color!
                             context.beginPath()
                             context.arc(label.nodes[0].x * dimensions.width * dimensions.scale, label.nodes[0].y * dimensions.height * dimensions.scale, 10, 0, 2 * Math.PI)
                             context.fill()
                             break;
                         case LabelTypes.Line:
                             context.beginPath();
-                            context.fillStyle = "#0000FF6B"
-                            context.strokeStyle = "#0000FF6B"
+                            context.fillStyle = label.color!
+                            context.strokeStyle = label.color!
                             context.lineWidth = 5;
                             label.nodes.map((node: Node) => {
                                 context.arc(node.x * dimensions.width * dimensions.scale, node.y * dimensions.height * dimensions.scale, 5, 0, 2 * Math.PI)
@@ -202,8 +205,8 @@ function MainView(ImageContainer: MainVeiwArgs) {
                             break;
                         case LabelTypes.Polygon:
                             context.beginPath();
-                            context.fillStyle = "#0000FF6B"
-                            context.strokeStyle = "#0000FF6B"
+                            context.fillStyle = label.color!
+                            context.strokeStyle = label.color!
                             label.nodes.map((node: Node) => {
                                 context.arc(node.x * dimensions.width * dimensions.scale, node.y * dimensions.height * dimensions.scale, 0.1, 0, 2 * Math.PI)
                                 context.stroke()
@@ -219,22 +222,16 @@ function MainView(ImageContainer: MainVeiwArgs) {
         }
     },[ImageContainer.image.annotations, dimensions])
 
-    useEffect(() => {
-        console.log(ImageContainer.image.annotations)
-    }, [ImageContainer.image.annotations])
-
+   
     const removeAnnotation = (id : string) : void =>  {
         ImageContainer.callback(ImageContainer.focus, [...ImageContainer.image.annotations.filter((annotation: Annotation) => annotation.uniqueId!=id)])
     }
 
     const updateAnnotationColor = (id : string, color: string) : void =>  {
         let currentValue = Object.assign([],ImageContainer.image.annotations)
-        console.log(color)
-        console.log(currentValue)
         ImageContainer.callback(ImageContainer.focus, [...currentValue.map((annotation: Annotation) => { if (annotation.uniqueId==id){
             let newAnnotation = Object.assign({}, annotation)
-            newAnnotation.color = color
-            console.log(newAnnotation)
+            newAnnotation.color = color + "8A"
             return newAnnotation
         }else{
             return annotation
@@ -243,18 +240,13 @@ function MainView(ImageContainer: MainVeiwArgs) {
 
     const updateAnnotationName = (id : string, name: string) : void =>  {
         let currentValue = Object.assign([],ImageContainer.image.annotations)
-        console.log(name)
-        console.log(currentValue)
         ImageContainer.callback(ImageContainer.focus, [...currentValue.map((annotation: Annotation) => { if (annotation.uniqueId==id){
             let newAnnotation = Object.assign({}, annotation)
             newAnnotation.name = name
-            console.log(newAnnotation)
-            
             return newAnnotation
         }else{
             return annotation
         }})])
-
     }
 
     return <Fragment>
@@ -297,10 +289,10 @@ function MainView(ImageContainer: MainVeiwArgs) {
                 </div>
             </div>
             <div className="label-container-out">
-            {ImageContainer.image.annotations.map((annotation: Annotation) => {
-                return <LabelObject label={annotation} 
+            {ImageContainer.image.annotations.map((annotation: Annotation, index: number) => {
+                return <LabelObject key={index + "annotation"} label={annotation} 
                                     id={annotation.uniqueId} 
-                                    nameLabel={""} 
+                                    nameLabel={annotation.name!} 
                                     removeCallback={removeAnnotation}
                                     updateColorCallback = {updateAnnotationColor}
                                     updateNameCallback = {updateAnnotationName}

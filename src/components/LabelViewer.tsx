@@ -22,16 +22,7 @@ function LabelViewer() {
         let image: ImageI = images[index]
         image.annotations = annotations
         setImages([...images.slice(0, index), image, ...images.slice(index + 1)])
-        console.log(image)
     }
-
-    useEffect(() => {
-        console.log(images)
-    }, [images])
-
-    useEffect(() => {
-        console.log(focus)
-    }, [focus])
 
     return (
         <Fragment>
@@ -39,7 +30,13 @@ function LabelViewer() {
             {images.length > 0 ?
                 <MainView focus={focus} image={images[focus]} callback={updateImage} />
                 :
-                <input type="file" multiple onChange={(event) => {
+                <div className="fc">
+                    <h1>Labeler</h1>
+                    <p>Upload some images to get started.</p>
+
+                    <div className="innerfc">
+                 
+                    <input className="fileupload"  type="file" multiple onChange={(event) => {
                         setImages(Array.from(event.target.files!).map(
                             (file) => {
                                 return {
@@ -50,6 +47,8 @@ function LabelViewer() {
                             }
                         ));
                     }}/>
+                    </div>
+                </div>
             }
         </Fragment>
     )
