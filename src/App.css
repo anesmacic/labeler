@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 400;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+}
+
 
 .gallery-outermost-wrapper{
   margin: none;
@@ -422,3 +428,8 @@ input[type="file"]::-webkit-file-upload-button {
 
 }
 
+.outerfc{
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  border-radius: 5px;
+  padding: 30px;
+}
