@@ -6,14 +6,11 @@
 [![stars - labeler](https://img.shields.io/github/stars/anesmacic/labeler?style=social)](https://github.com/anesmacic/labeler)
 [![forks - labeler](https://img.shields.io/github/forks/anesmacic/labeler?style=social)](https://github.com/anesmacic/labeler)
 
-_Repo metadata_
 
 
-[![GitHub release](https://img.shields.io/github/release/anesmacic/labeler?include_prereleases=&sort=semver&color=blue)](https://github.com/anesmacic/labeler/)
 [![License](https://img.shields.io/badge/License-MIT-blue)](#license)
 
 
-_Call-to-Action buttons_
 
 <div align="center">
 
