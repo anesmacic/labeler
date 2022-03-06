@@ -4,7 +4,9 @@
   src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
 }
 
-
+* {
+  font-size: 12px;
+}
 .gallery-outermost-wrapper{
   margin: none;
   max-width: 100vw;
@@ -17,12 +19,13 @@
 
 }
 .carousel{
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-content: flex-start;
   max-width: 90vw;
-
+  min-width: 90vw;
   overflow-x: scroll;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   border-radius: 5px;
@@ -30,7 +33,6 @@
   padding-bottom: 10px;
   padding-left: 30px;
   padding-right: 30px;
-  border-bottom: 4px solid #51758fa2;
 
 
 }
@@ -42,6 +44,7 @@
   margin: 0px;
   border: none;
   padding: 0px;
+  position: relative;
   
 }
 
@@ -66,13 +69,14 @@
 
 
 .outer-container {
-  width: 100%;
   min-height: 600px;
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 }
 
 .main-view-container{
@@ -84,6 +88,8 @@
   user-select: none;
   margin-bottom: 20px;
   overflow: auto;
+  width: 100%;
+  padding: 30px;
 }
 .main-view-container img{
   position: absolute;
@@ -96,14 +102,16 @@
 
 }
 .toolbar{
-  padding: 3px;
-  margin: 10px;
-  margin-bottom: 30px;
+
   border-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: left;
+  padding: 10px;
+  border-bottom: 3px solid rgba(2, 81, 117, 0.226);
 }
 
 .toolbar button{
@@ -114,6 +122,7 @@
 
 .btn-tool{
   display: flex;
+  font-size: 12px;
   align-content: center;
   justify-content: center;
   align-items: center;
@@ -121,7 +130,7 @@
   background-color: white;
   cursor: pointer;
   border: 2px solid rgba(128, 128, 128, 0.1);
-  border-radius: 10px;
+  border-radius: 5px;
   height: 50px;
   padding: 10px;
   margin-left: 4px;
@@ -143,7 +152,8 @@ a{
   justify-content: center;
   align-items: center;
   justify-items: center;
-  border-radius: 10px;
+  border-radius: 5px;
+  font-size: 12px;
   height: 50px;
   padding: 10px;
   margin-left: 4px;
@@ -158,17 +168,7 @@ a{
 
 }
 
-.labeler-container {
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-  margin: 1vw;
-  margin-top: 10px;
-  max-width: 100vw;
-  padding: 1vw;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
+
 .slidecontainer{
   padding: 0;
   width: 50px;
@@ -199,16 +199,18 @@ border-radius: 5px;
 
 .label-div{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items:flex-start;
-  justify-content: left;
+  justify-content: baseline;
+  justify-items: baseline;
   padding: 20px;
   border: 2px solid rgba(197, 197, 197, 0.114);
   margin-bottom: 1px;
-  border-radius: 10px;
+  border-radius: 5px;
   transition: all 0.1s ease-in-out;
-  min-width: 300px;
+  margin: 10px;
 }
+
 
 .label-div:hover{
   border: 2px solid rgba(197, 197, 197, 0.514);
@@ -227,16 +229,16 @@ border-radius: 5px;
   color: #4683b4;
 }
 .labeler-container {
-  box-shadow: rgba(60, 64, 67, 0.1) 0px 2px 2px 0px, rgba(60, 64, 67, 0.1) 0px 2px 6px 1px;
-  margin-top: 20px;
-  padding: 5px;
-  padding-top: 20px;
-  padding-bottom: 30px;
-  border-radius: 20px;
+  margin-top: 10px;
+  width: 90vw;
+  align-self: center;
+  padding: 1vw;
+  border-radius: 5px;
   display: flex;
   flex-direction: row;
+  justify-self: center;
   justify-content: space-between;
-  overflow: auto;
+  flex-wrap: wrap;
 }
 .labelName{
   font-weight: 300;
@@ -254,13 +256,13 @@ border-radius: 5px;
   color: white;
   padding: 10px;
   border: 1px solid white;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .remove-btn{
   padding: 10px;
   border: 1px solid rgba(255, 0, 0, 0.5);
-  border-radius: 10px;
+  border-radius: 5px;
   color: rgba(255, 0, 0, 0.5);
   background-color: white;
   cursor: pointer;
@@ -271,7 +273,7 @@ border-radius: 5px;
 .global{
   padding: 10px;
   border: 1px solid #51758F;
-  border-radius: 10px;
+  border-radius: 5px;
   color: white;
   background-color: #51758F;
   cursor: pointer;
@@ -281,7 +283,7 @@ border-radius: 5px;
 .notglobal{
   padding: 10px;
   border: 1px solid  #51758F;
-  border-radius: 10px;
+  border-radius: 5px;
   color: #51758F;
   background-color: white;
   cursor: pointer;
@@ -380,12 +382,9 @@ input:checked + .slider:before {
   border: none;
   border-bottom: 1px solid rgba(128, 128, 128, 0);
   transition: all 0.1s ease-in-out;
-  font-weight: 200;
   text-transform: capitalize;
   background-color: transparent;
-  margin-bottom: 10px;
-  padding: 4px;
-  font-size: medium;
+  font-size: 12px;
 }
 input:-internal-autofill-selected{
   background-color: transparent;
@@ -401,10 +400,12 @@ input:-internal-autofill-selected{
   justify-content: center;
   align-items: center;
 }
-
+.fc p{
+  color: rgba(2, 81, 117, 0.473);
+}
 .fc h1{
   max-width: 50vw;
-  font-size: 100px;
+  font-size: 60px;
   font-weight: 300;
   background: -webkit-linear-gradient(rgb(2, 81, 117), rgb(32, 114, 146));
   -webkit-background-clip: text;
@@ -421,9 +422,6 @@ input:-internal-autofill-selected{
   border: none;
 }
 
-.fileupload button{
-  background-color: red;
-}
 
 input[type="file"]::-webkit-file-upload-button {
   cursor: pointer;
@@ -431,10 +429,14 @@ input[type="file"]::-webkit-file-upload-button {
   color: white;
   border: none;
   outline: none;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 20px;
 }
 .label-container-out{
+  position: sticky;
+  top: 1vh;
+  left: 1vw;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   z-index: 6;
   min-width: 500px;
   align-items: center;
@@ -444,14 +446,26 @@ input[type="file"]::-webkit-file-upload-button {
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(20px);
   scrollbar-color: white #4682B4;
-  padding-left: 10px;
+  border-radius: 5px;
 
+}
+
+
+.btn-tool svg {
+  padding: none;
+  fill: black;
+  color: black;
+  stroke: black;
+}
+
+.svg {
+  padding: none;
 }
 
 .outerfc{
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border-radius: 5px;
-  padding: 30px;
+  padding: 40px;
 }
 .download-ref{
   max-width: 200px;
@@ -463,9 +477,10 @@ input[type="file"]::-webkit-file-upload-button {
 .download-btn{
   width: 100%;
   background-color: white;
+  font-size: 12px;
   color:rgb(2, 81, 117);
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 5px;
   border: 1px solid rgb(2, 81, 117);
   margin: 4px;
   margin-left: 20px;
@@ -479,5 +494,50 @@ input[type="file"]::-webkit-file-upload-button {
 }
 .inlinea {
   align-items: baseline;
+  justify-content: flex-end;
+}
+
+
+.download{
+  border-top: 1px solid rgba(2, 81, 117, 0.356);
+  padding: 20px;
+}
+.topright {
+  background-color: rgba(32, 114, 146, 1);
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  color: rgba(255, 255, 255, 0.589);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  vertical-align: middle;
+  text-align: center;
+  bottom: 0px;
+  right: 0px;
+  margin: 0px;
+}
+.App{
+  min-height: 100vh;
+  font-size: 12px;
+
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
+}
+
+button{
+  font-size: 12px;
+}
+.stickyb{
+  position: sticky;
+  bottom: 0px;
+  background-color: rgba(255, 255, 255, 0.816);
+  backdrop-filter: blur(10px);
+}
+
+#paddingleft{
+  padding-left: 20px;
 }

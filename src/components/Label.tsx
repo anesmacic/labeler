@@ -58,7 +58,7 @@ function LabelObject({ label, id, nameLabel, removeCallback, updateColorCallback
         }
     },[globalLabel])
 
-    return <div className="label-div" style={{ borderLeft: `6px solid ${label.color!}` }} id={label.type}  >
+    return <div className="label-div" style={{ border: `1px solid ${label.color!}` }} id={label.type}  >
       
       <input type="text" className="labelName" name="labelName" placeholder="Name .." list="labelOptions" value={nameLabel} onChange={(e) => updateNameCallback(id,e.target.value)}/>
             <datalist id="labelOptions">

@@ -1,4 +1,4 @@
-import { Fragment, Ref, useEffect, useRef, useState } from "react"
+import { Fragment, ReactElement, Ref, useEffect, useRef, useState } from "react"
 import { ImageI, ImagesI } from "./LabelViewer"
 import '../App.css'
 import { LabelTypes, Label } from "../App"
@@ -53,24 +53,25 @@ function MainView(ImageContainer: MainVeiwArgs) {
     const placeholderPolygonAnnotation: Annotation = {
         uniqueId: "",
         nodes: [],
-        color: "#51758F6B",
+        color: "#FF00006B",
         type: LabelTypes.Polygon
     }
     const placeholderLineAnnotation: Annotation = {
         uniqueId: "",
         nodes: [],
-        color: "#51758F6B",
+        color: "#FF00006B",
         type: LabelTypes.Line
     }
     const placeholderPointAnnotation: Annotation = {
         uniqueId: "",
         nodes: [],
-        color: "#51758F6B",
+        color: "#FF00006B",
         type: LabelTypes.Point
     }
 
     const drawingCanvasRef = useRef<HTMLCanvasElement>(null)
     const displayCanvasRef = useRef<HTMLCanvasElement>(null)
+    const imageRef = useRef<HTMLImageElement>(null);
     const [modeCursor, setmodeCursor] = useState<boolean>(true)
     const [modePolygon, setmodePolygon] = useState<boolean>(false)
     const [modePoint, setmodePoint] = useState<boolean>(false)
@@ -90,8 +91,8 @@ function MainView(ImageContainer: MainVeiwArgs) {
     const [mousePosition, setMousePosition] = useState<MousePosition>({ x: 0, y: 0 })
     const [LabelerIsCollapsed, setLabelerIsCollapsed] = useState<boolean>(false)
     const [dimensions, setDimensions] = useState<CanvasDimensions>({
-        width: 700,
-        height: 700,
+        width: 0,
+        height: 0,
         scale: 2
     })
 
@@ -114,8 +115,10 @@ function MainView(ImageContainer: MainVeiwArgs) {
         const rect = target!.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
+        console.log([x, y, event.clientX, event.clientY, rect.left, rect.top])
         const [currentLabel, updateCurrentLabel] = getMode()
-        const newNode: Node = { x: x / dimensions.width, y: y / dimensions.width }
+        console.log(dimensions)
+        const newNode: Node = { x: x / dimensions.width, y: y / dimensions.height }
         let current = Object.assign({}, currentLabel)
         current.nodes.push(newNode)
         current.uniqueId = Math.random().toString(36)
@@ -144,6 +147,8 @@ function MainView(ImageContainer: MainVeiwArgs) {
             }
     }
 
+
+
     useEffect(() => {
         const canvas = drawingCanvasRef.current
         const context = canvas!.getContext('2d')
@@ -153,14 +158,14 @@ function MainView(ImageContainer: MainVeiwArgs) {
             temporaryPolygonAnnotation?.nodes.map(
                 (node: Node) => {
                     context.fillStyle = temporaryPolygonAnnotation.color!
-                    context.arc(node.x * dimensions.width * dimensions.scale, node.y * dimensions.height * dimensions.scale, 2, 0, 2 * Math.PI)
+                    context.arc(node.x * dimensions.width * dimensions.scale, node.y * dimensions.height * dimensions.scale, 5, 0, 2 * Math.PI)
                     context.stroke()
                     context.strokeStyle = temporaryPolygonAnnotation.color!
                 }
             )
             context.fill()
         }
-    },[modePolygon, temporaryPolygonAnnotation])
+    }, [modePolygon, temporaryPolygonAnnotation])
 
     useEffect(() => {
         const canvas = drawingCanvasRef.current
@@ -177,7 +182,7 @@ function MainView(ImageContainer: MainVeiwArgs) {
                 }
             )
         }
-    },[modeLine, temporaryLineAnnotation])
+    }, [modeLine, temporaryLineAnnotation])
 
     useEffect(() => {
         const canvas = displayCanvasRef.current
@@ -197,9 +202,9 @@ function MainView(ImageContainer: MainVeiwArgs) {
                             context.beginPath();
                             context.fillStyle = label.color!
                             context.strokeStyle = label.color!
-                            context.lineWidth = 5;
+                            context.lineWidth = 4;
                             label.nodes.map((node: Node) => {
-                                context.arc(node.x * dimensions.width * dimensions.scale, node.y * dimensions.height * dimensions.scale, 5, 0, 2 * Math.PI)
+                                context.arc(node.x * dimensions.width * dimensions.scale, node.y * dimensions.height * dimensions.scale, 2, 0, 2 * Math.PI)
                             })
                             context.stroke()
                             break;
@@ -207,8 +212,9 @@ function MainView(ImageContainer: MainVeiwArgs) {
                             context.beginPath();
                             context.fillStyle = label.color!
                             context.strokeStyle = label.color!
+                            context.lineWidth = 1;
                             label.nodes.map((node: Node) => {
-                                context.arc(node.x * dimensions.width * dimensions.scale, node.y * dimensions.height * dimensions.scale, 0.1, 0, 2 * Math.PI)
+                                context.arc(node.x * dimensions.width * dimensions.scale, node.y * dimensions.height * dimensions.scale, 2, 0, 2 * Math.PI)
                                 context.stroke()
                             })
                             context.fill()
@@ -220,84 +226,133 @@ function MainView(ImageContainer: MainVeiwArgs) {
             )
 
         }
-    },[ImageContainer.image.annotations, dimensions])
+    }, [ImageContainer.image.annotations, dimensions])
 
-   
-    const removeAnnotation = (id : string) : void =>  {
-        ImageContainer.callback(ImageContainer.focus, [...ImageContainer.image.annotations.filter((annotation: Annotation) => annotation.uniqueId!=id)])
+
+    const removeAnnotation = (id: string): void => {
+        ImageContainer.callback(ImageContainer.focus, [...ImageContainer.image.annotations.filter((annotation: Annotation) => annotation.uniqueId != id)])
     }
 
-    const updateAnnotationColor = (id : string, color: string) : void =>  {
-        let currentValue = Object.assign([],ImageContainer.image.annotations)
-        ImageContainer.callback(ImageContainer.focus, [...currentValue.map((annotation: Annotation) => { if (annotation.uniqueId==id){
-            let newAnnotation = Object.assign({}, annotation)
-            newAnnotation.color = color + "8A"
-            return newAnnotation
-        }else{
-            return annotation
-        }})])
+    const updateAnnotationColor = (id: string, color: string): void => {
+        let currentValue = Object.assign([], ImageContainer.image.annotations)
+        ImageContainer.callback(ImageContainer.focus, [...currentValue.map((annotation: Annotation) => {
+            if (annotation.uniqueId == id) {
+                let newAnnotation = Object.assign({}, annotation)
+                newAnnotation.color = color + "8A"
+                return newAnnotation
+            } else {
+                return annotation
+            }
+        })])
     }
 
-    const updateAnnotationName = (id : string, name: string) : void =>  {
-        let currentValue = Object.assign([],ImageContainer.image.annotations)
-        ImageContainer.callback(ImageContainer.focus, [...currentValue.map((annotation: Annotation) => { if (annotation.uniqueId==id){
-            let newAnnotation = Object.assign({}, annotation)
-            newAnnotation.name = name
-            return newAnnotation
-        }else{
-            return annotation
-        }})])
+    const updateAnnotationName = (id: string, name: string): void => {
+        let currentValue = Object.assign([], ImageContainer.image.annotations)
+        ImageContainer.callback(ImageContainer.focus, [...currentValue.map((annotation: Annotation) => {
+            if (annotation.uniqueId == id) {
+                let newAnnotation = Object.assign({}, annotation)
+                newAnnotation.name = name
+                return newAnnotation
+            } else {
+                return annotation
+            }
+        })])
     }
+
+    const [zoom, setZoom] = useState<number>(1)
+
+
+    const updateZoom = (z: number) => {
+        let currentDimensions = Object.assign({}, dimensions);
+        currentDimensions.height *= z;
+        currentDimensions.width *= z;
+        setZoom(z)
+        setDimensions(currentDimensions)
+    }
+
+    const [image, updateImage] = useState<ReactElement>()
+
+    useEffect(() => {
+        updateImage(<img ref={imageRef} onContextMenu={(e) => { e.preventDefault(); return false }} src={ImageContainer.image.blobURL} style={{ filter: `invert(${invertValue}%) contrast(${contrastValue}%) brightness(${brightnessValue}%)` }} />)
+    }, [ImageContainer.image.blobURL])
+
+    useEffect(() => {
+        const i = imageRef.current;
+        if (i?.width !== dimensions.width) {
+            setDimensions({
+                width: i!.width,
+                height: i!.height,
+                scale: dimensions.scale
+            })
+        }
+    }, [imageRef, image, modeCursor, modeLine, modePoint, modePolygon])
+
+
+    useEffect(() => {
+        console.log(dimensions)
+        if (dimensions.width !== 0) {
+            const im = imageRef.current;
+            im!.width = dimensions.width;
+            im!.height = dimensions.height;
+
+        }
+    }, [dimensions])
 
     return <Fragment>
         <div className="labeler-container">
-        
+
+            <div className="label-container-out">
+                <div className="toolbar">
+                    <button className="btn-tool svg" onClick={() => { updateZoom(0.9) }}>
+                        -
+                    </button>
+                    <button className="btn-tool svg" onClick={() => { updateZoom(1.1) }}>
+                        +
+                    </button>
+                    <button className={modeCursor ? "btn-tool-active" : "btn-tool"} onClick={() => { modeCursor ? setmodeCursor(false) : setmodeLine(false); setmodePolygon(false); setmodeCursor(true); setmodePoint(false); }}>
+                        <img width="20px" style={{ filter: "grayscale(1)" }} className="toolbar-img" src={process.env.PUBLIC_URL + "/cursor.png"} alt="Polygon Selector" />
+                    </button>
+                    <button className={modePoint ? "btn-tool-active" : "btn-tool"} onClick={() => { modePoint ? setmodePolygon(false) : setmodeLine(false); setmodePolygon(false); setmodeCursor(false); setmodePoint(true); }}>
+                        <img width="20px" style={{ filter: "grayscale(1)" }} className="toolbar-img" src={process.env.PUBLIC_URL + "/points.png"} alt="Polygon Selector" />
+                    </button>
+                    <button className={modePolygon ? "btn-tool-active" : "btn-tool"} onClick={() => { modePolygon ? setmodePolygon(false) : setmodeLine(false); setmodePolygon(true); setmodeCursor(false); setmodePoint(false); }}>
+                        <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/square-3.png"} alt="Polygon Selector" />
+                    </button>
+                    <button className={modeLine ? "btn-tool-active" : "btn-tool"} onClick={() => { modeLine ? setmodeLine(false) : setmodeLine(true); setmodePolygon(false); setmodeCursor(false); setmodePoint(false); }}>
+                        <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/line-segment.png"} alt="Polygon Selector" />
+                    </button>
+                    <button className={brightnessSliderVisible ? "btn-tool-active" : "btn-tool"} onDoubleClick={() => resetBrightness()} onClick={() => { brightnessSliderVisible ? setBrightnessSliderVisible(false) : setBrightnessSliderVisible(true) }}>
+                        <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/brightness.png"} alt="Polygon Selector" />
+                    </button>
+                    <button className={contrastSliderVisible ? "btn-tool-active" : "btn-tool"} onDoubleClick={() => resetContrast()} onClick={() => { contrastSliderVisible ? setContrastSliderVisible(false) : setContrastSliderVisible(true) }}>
+                        <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/contrast.png"} alt="Polygon Selector" />
+                    </button>
+                    <button className={invertSliderVisible ? "btn-tool-active" : "btn-tool"} onDoubleClick={() => resetInvert()} onClick={() => { invertSliderVisible ? setInvertSliderVisible(false) : setInvertSliderVisible(true) }}>
+                        <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/invert.png"} alt="Polygon Selector" />
+                    </button>
+
+                </div>
+                <Slider visible={brightnessSliderVisible} value={brightnessValue} onChange={(e) => { setBrigthnessValue(parseInt(e.target.value)) }} />
+                <Slider visible={contrastSliderVisible} value={contrastValue} onChange={(e) => { setContrastValue(parseInt(e.target.value)) }} />
+                <Slider visible={invertSliderVisible} max={100} value={invertValue} onChange={(e) => { setInvertValue(parseInt(e.target.value)) }} />
+
+                <p id="paddingleft">Labels</p>
+                {ImageContainer.image.annotations.map((annotation: Annotation, index: number) => {
+                    return <LabelObject key={index + "annotation"} label={annotation}
+                        id={annotation.uniqueId}
+                        nameLabel={annotation.name!}
+                        removeCallback={removeAnnotation}
+                        updateColorCallback={updateAnnotationColor}
+                        updateNameCallback={updateAnnotationName}
+                    />
+                })}
+            </div>
+
             <div className="outer-container">
-                <div className="main-view-container " style={{ width: dimensions.width + "px", height: dimensions.height + "px" }} onContextMenu={(e) => { e.preventDefault(); return false }} >
-                    <img width={dimensions.width + "px"} height={dimensions.height + "px"} onContextMenu={(e) => { e.preventDefault(); return false }} src={ImageContainer.image.blobURL} style={{ filter: `invert(${invertValue}%) contrast(${contrastValue}%) brightness(${brightnessValue}%)` }} />
-                    <canvas ref={displayCanvasRef} onContextMenu={(e) => { e.preventDefault(); return false }} onClick={(e) => reportClick(e)} style={{ width: dimensions.width + "px", height: dimensions.height + "px" }} width={dimensions.width * dimensions.scale} height={dimensions.height * dimensions.scale} />
+                <div className="main-view-container" style={{ width: dimensions.width + "px", height: dimensions.height + "px" }} onContextMenu={(e) => { e.preventDefault(); return false }} >
+                    <img ref={imageRef} onContextMenu={(e) => { e.preventDefault(); return false }} src={ImageContainer.image.blobURL} style={{ filter: `invert(${invertValue}%) contrast(${contrastValue}%) brightness(${brightnessValue}%)` }} />                     <canvas ref={displayCanvasRef} onContextMenu={(e) => { e.preventDefault(); return false }} onClick={(e) => reportClick(e)} style={{ width: dimensions.width + "px", height: dimensions.height + "px" }} width={dimensions.width * dimensions.scale} height={dimensions.height * dimensions.scale} />
                     <canvas ref={drawingCanvasRef} onClick={(e) => reportClick(e)} style={{ width: dimensions.width + "px", height: dimensions.height + "px" }} width={dimensions.width * dimensions.scale} height={dimensions.height * dimensions.scale} onContextMenu={(e) => { reportDoubleClick(); return false; }} />
                 </div>
-            </div>
-            <div className="label-container-out">
-            <div className="toolbar">
-               
-               <button className={modeCursor ? "btn-tool-active" : "btn-tool"} onClick={() => { modeCursor ? setmodeCursor(false) : setmodeLine(false); setmodePolygon(false); setmodeCursor(true); setmodePoint(false); }}>
-                   <img width="20px" style={{ filter: "grayscale(1)" }} className="toolbar-img" src={process.env.PUBLIC_URL + "/cursor.png"} alt="Polygon Selector" />
-               </button>
-               <button className={modePoint ? "btn-tool-active" : "btn-tool"} onClick={() => { modePoint ? setmodePolygon(false) : setmodeLine(false); setmodePolygon(false); setmodeCursor(false); setmodePoint(true); }}>
-                   <img width="20px" style={{ filter: "grayscale(1)" }} className="toolbar-img" src={process.env.PUBLIC_URL + "/points.png"} alt="Polygon Selector" />
-               </button>
-               <button className={modePolygon ? "btn-tool-active" : "btn-tool"} onClick={() => { modePolygon ? setmodePolygon(false) : setmodeLine(false); setmodePolygon(true); setmodeCursor(false); setmodePoint(false); }}>
-                   <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/square-3.png"} alt="Polygon Selector" />
-               </button>
-               <button className={modeLine ? "btn-tool-active" : "btn-tool"} onClick={() => { modeLine ? setmodeLine(false) : setmodeLine(true); setmodePolygon(false); setmodeCursor(false); setmodePoint(false); }}>
-                   <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/line-segment.png"} alt="Polygon Selector" />
-               </button>
-               <button className={brightnessSliderVisible ? "btn-tool-active" : "btn-tool"} onDoubleClick={() => resetBrightness()} onClick={() => { brightnessSliderVisible ? setBrightnessSliderVisible(false) : setBrightnessSliderVisible(true) }}>
-                   <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/brightness.png"} alt="Polygon Selector" />
-               </button>
-               <button className={contrastSliderVisible ? "btn-tool-active" : "btn-tool"} onDoubleClick={() => resetContrast()} onClick={() => { contrastSliderVisible ? setContrastSliderVisible(false) : setContrastSliderVisible(true) }}>
-                   <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/contrast.png"} alt="Polygon Selector" />
-               </button>
-               <button className={invertSliderVisible ? "btn-tool-active" : "btn-tool"} onDoubleClick={() => resetInvert()} onClick={() => { invertSliderVisible ? setInvertSliderVisible(false) : setInvertSliderVisible(true) }}>
-                   <img width="20px" className="toolbar-img" src={process.env.PUBLIC_URL + "/invert.png"} alt="Polygon Selector" />
-               </button>
-           </div>
-           <Slider visible={brightnessSliderVisible} value={brightnessValue} onChange={(e) => { setBrigthnessValue(parseInt(e.target.value)) }} />
-           <Slider visible={contrastSliderVisible} value={contrastValue} onChange={(e) => { setContrastValue(parseInt(e.target.value)) }} />
-           <Slider visible={invertSliderVisible} max={100} value={invertValue} onChange={(e) => { setInvertValue(parseInt(e.target.value)) }} />
-
-                <p>Labels</p>
-            {ImageContainer.image.annotations.map((annotation: Annotation, index: number) => {
-                return <LabelObject key={index + "annotation"} label={annotation} 
-                                    id={annotation.uniqueId} 
-                                    nameLabel={annotation.name!} 
-                                    removeCallback={removeAnnotation}
-                                    updateColorCallback = {updateAnnotationColor}
-                                    updateNameCallback = {updateAnnotationName}
-                                    />
-            })}
             </div>
         </div>
     </Fragment>

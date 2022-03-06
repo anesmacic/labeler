@@ -26,19 +26,29 @@ function LabelViewer() {
 
     return (
         <Fragment>
-            <Gallery images={images} focus={focus} callback={setFocus} />
+
             {images.length > 0 ?
-                <MainView focus={focus} image={images[focus]} callback={updateImage} />
+                <>
+
+                    <MainView focus={focus} image={images[focus]} callback={updateImage} />
+                    <div className="stickyb">
+                    <div className="download flex-row inlinea">
+                        <a className="download-ref" href={`data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(images))}`} download="annotations_labeler_v010.json">
+                            <button className="download-btn">Download All Annotations</button>
+                        </a>
+                        <a className="download-ref" href={`data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(images[focus]))}`} download="annotations_labeler_v010.json">
+                            <button className="download-btn">Download This Annotation</button>
+                        </a>
+                    </div>
+                    <Gallery images={images} focus={focus} callback={setFocus} />
+                    </div>
+                </>
                 :
                 <div className="fc">
-
                     <h1>Labeler</h1>
-                    <pre>version 0.1.0 <a href="https://github.com/anesmacic/labeler">Github &#8599;</a></pre>
+                    <p><a href="https://github.com/anesmacic/labeler"> Version 0.1.0 &#8599;</a></p>
                     <br />
                     <div className="outerfc">
-                        <p>Upload some images to get started.</p>
-                        <br />
-                        <br />
                         <div className="innerfc">
                             <input className="fileupload" type="file" multiple onChange={(event) => {
                                 setImages(Array.from(event.target.files!).map(
@@ -55,11 +65,9 @@ function LabelViewer() {
                             }} />
                         </div>
                     </div>
-
-
-
                 </div>
             }
+
         </Fragment>
     )
 }
