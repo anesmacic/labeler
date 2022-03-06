@@ -37,11 +37,13 @@ function LabelObject({ label, id, nameLabel, removeCallback, updateColorCallback
 
     const popover: React.CSSProperties = {
         position: 'absolute',
-        zIndex: '6',
+        zIndex: '10',
+        top: '0px',
+        right: '0px'
     }
 
     const cover: React.CSSProperties = {
-        position: 'fixed',
+        position: 'absolute',
         top: '0px',
         right: '0px',
         bottom: '0px',
@@ -72,7 +74,6 @@ function LabelObject({ label, id, nameLabel, removeCallback, updateColorCallback
             </div>
 
             <div className="flex-row">
-            <button className={globalLabel} onClick={()=> globalLabel == "global" ? makeGlobalLabel("notglobal") : makeGlobalLabel("global") }>Global</button>
 
             <button className="color-button" style={{backgroundColor: label.color}}  onClick={() => displayColorPicker ? setDisplayColorPicker(false) : setDisplayColorPicker(true)}>Fill</button>
             {
@@ -85,6 +86,8 @@ function LabelObject({ label, id, nameLabel, removeCallback, updateColorCallback
                     :
                     null
             }
+            <button className={globalLabel} onClick={()=> globalLabel == "global" ? makeGlobalLabel("notglobal") : makeGlobalLabel("global") }>Global</button>
+
             <button className="remove-btn" onClick={()=>removeCallback(id)}>Remove</button>
             </div>
         </div>
